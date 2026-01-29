@@ -17,13 +17,15 @@ Sys.setenv(
 )
 
 run_aggr_log <- file.path(outdir, "RUN_AGGR.log")
+log_con <- file(run_aggr_log, open = "at")
 dir.create(outdir, showWarnings = FALSE, recursive = TRUE)
+
+sink(log_con, split = TRUE)
+sink(log_con, type = "message")
 
 cat("========== BLIT AGGR START ==========\n")
 cat("Time :", format(Sys.time()), "\n")
 cat("Log  :", run_aggr_log, "\n\n")
-
-log_con <- file(run_aggr_log, open = "at")
 
 # ============================================================
 # CHECK
@@ -80,7 +82,10 @@ cmd2 <- exec(
 
 cmd_run(cmd2, stdout = log_con, stderr = log_con)
 
-close(log_con)
-
 cat("\n========== BLIT AGGR END ==========\n")
 cat("Full log:", run_aggr_log, "\n")
+
+sink(type = "message")
+sink()
+
+close(log_con)

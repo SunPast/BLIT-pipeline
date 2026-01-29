@@ -85,6 +85,9 @@ nthreads_prog <- cfg$threads
 run_call_log <- file.path(outdir, "RUN_CALL.log")
 dir.create(outdir, showWarnings = FALSE, recursive = TRUE)
 
+sink(log_con, split = TRUE)
+sink(log_con, type = "message")
+
 cat("========== BLIT CALL START ==========\n")
 cat("Time :", format(Sys.time()), "\n")
 cat("Log  :", run_call_log, "\n\n")
@@ -163,9 +166,11 @@ for (sample in samples) {
 }
 
 # ============================================================
-
-close(log_con)
-
 cat("\n========== BLIT CALL END ==========\n")
 cat("RUN_CALL.log:", run_call_log, "\n")
 cat("Next step: run_aggr.R\n")
+
+sink(type = "message")
+sink()
+
+close(log_con)
